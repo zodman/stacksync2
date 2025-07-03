@@ -3,7 +3,7 @@ from flask import request as flask_request
 from main import router
 
 import zd_google
-from utils import get_data
+from utils import get_data, MissingTitle
 
 
 @router.route("/execute", methods=["GET", "POST"])

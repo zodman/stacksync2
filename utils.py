@@ -2,7 +2,7 @@ from workflows_cdk import Response, Request
 from flask import request as flask_request
 
 
-class MissinTitle(Exception):
+class MissingTitle(Exception):
     pass
 
 
