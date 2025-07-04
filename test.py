@@ -62,6 +62,7 @@ class Test(unittest.TestCase):
         self.append([5, 6])
         self.pop()
         self.append([7, 8])
+        self.pop()
 
     def test_delete_testing(self):
         name = 'test ' + f.name()
