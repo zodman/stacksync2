@@ -14,9 +14,11 @@ def execute():
     except MissingTitle:
         return Response(data={"message": "Missing request zd_title"}, status_code=400)
 
+    title = data.get('zd_title')
     success = zd_google.delete_worksheet(title)
 
-    return Response(data=[], metadata={"success": success, 'data_deleted': title})
+    return Response(data=[], metadata={"success": success,
+                                       'data_deleted': title})
 
 
 @router.route("/content", methods=["GET", "POST"])

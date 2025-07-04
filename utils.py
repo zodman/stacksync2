@@ -14,4 +14,6 @@ def get_data(flask_request):
     title = data.get('zd_title')
 
     if not title:
-        raise MissinTitle('zd_title')
+        raise MissingTitle('zd_title')
+
+    return data

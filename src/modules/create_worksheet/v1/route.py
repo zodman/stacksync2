@@ -13,6 +13,8 @@ def execute():
     except MissingTitle:
         return Response(data={"message": "Missing request zd_title"}, status_code=400)
 
+    title = data.get('zd_title')
+
     success = False
     try:
         success = zd_google.create_worksheet(title)

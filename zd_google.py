@@ -37,12 +37,12 @@ def create_worksheet(title):
         raise WorksheetExists(f'worksheet {title}')
 
     sheet.add_worksheet(title=title, rows=100, cols=20)
+    return True
 
 
 def delete_worksheet(title):
     sheet = _get_sheet()
     wsheet = _find_sheet_by_title(title)
-
     if wsheet is None:
         return False
 
@@ -54,8 +54,11 @@ def append_data(worksheet_name, data):
     sheet = _find_sheet_by_title(worksheet_name)
     if sheet is None:
         return False
-    records = sheet.get_all_records()
-    sheet.update(records + data)
+    records = sheet.get_all_values()
+    if records != [[]]:
+        sheet.update(records + data)
+    else:
+        sheet.update(data)
     return True
 
 
@@ -63,7 +66,6 @@ def pop_data(worksheet_name):
     sheet = _find_sheet_by_title(worksheet_name)
     if sheet is None:
         return False
-
     records = sheet.get_all_values()
     records.pop()
     sheet.update(records)
@@ -83,6 +85,8 @@ def _cleanup_test():
 
 
 def main_test_api():
+
+    _cleanup_test()
     import faker
     f = faker.Faker()
     sheet = _get_sheet()
@@ -93,29 +97,27 @@ def main_test_api():
     res = sheet.worksheets()
     assert title in [i.title for i in sheet.worksheets()]
 
-    data = [['a', 'b']] * 10
+    data = [['a']] * 1
+    assert False, data
     res = append_data(title, data)
     assert res
 
     pop_data(title)
 
+    import time
+
+    time.sleep(3)
+
     s = _find_sheet_by_title(title)
-    assert len(s.get_all_records()) == 9
+    v = s.get_values()
+
+    assert len(v) == 0, (len(v), v)
 
     # success = delete_worksheet(title)
     # assert success
     # assert title not in [i.title for i in sheet.worksheets()]
 
 
-def main():
-    create_worksheet('zd1')
-
-
 if __name__ == "__main__":
-    try:
-        # main_test_api()
-        main()
-    finally:
-        pass
-        # cleanup_test()
+    main_test_api()
     print("success")

@@ -14,8 +14,8 @@ def execute():
     except MissingTitle:
         return Response(data={"message": "Missing request zd_title"}, status_code=400)
 
-    sheet_data = data.get('zd_data')
+    title = data.get('zd_title')
 
-    success = zd_google.append_data(title, [sheet_data])
+    success = zd_google.pop_data(title)
 
     return Response(data=[], metadata={"success": success, 'data_append': title})
