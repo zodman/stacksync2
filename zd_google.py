@@ -67,7 +67,7 @@ def pop_data(worksheet_name):
     if sheet is None:
         return False
     records = sheet.get_all_values()
-    records.pop()
+    records[-1] = [""]
     sheet.update(records)
     return True
 
@@ -97,21 +97,22 @@ def main_test_api():
     res = sheet.worksheets()
     assert title in [i.title for i in sheet.worksheets()]
 
-    data = [['a']] * 1
-    assert False, data
+    data = [['a']] * 3
     res = append_data(title, data)
     assert res
-
-    pop_data(title)
-
-    import time
-
-    time.sleep(3)
 
     s = _find_sheet_by_title(title)
     v = s.get_values()
 
-    assert len(v) == 0, (len(v), v)
+    assert v == data, (len(v), v)
+
+    pop_data(title)
+    pop_data(title)
+
+    s = _find_sheet_by_title(title)
+    v = s.get_values()
+
+    assert v == [['a']], v
 
     # success = delete_worksheet(title)
     # assert success
